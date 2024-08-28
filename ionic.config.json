@@ -1,0 +1,7 @@
+{
+  "name": "trekfit",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
