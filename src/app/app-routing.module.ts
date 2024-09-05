@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'big-map',
+    loadChildren: () => import('./big-map/big-map.module').then( m => m.BigMapPageModule)
+  },
 ];
 
 @NgModule({

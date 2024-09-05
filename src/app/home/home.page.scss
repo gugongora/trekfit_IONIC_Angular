@@ -1,7 +1,19 @@
+ion-content {
+  --background: none; 
+  background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
+  background-size: cover;
+
+}
+
 .centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  
+
+}
+
+.map-container {
+  height: 30%; /* El mapa ocupa el 100% del contenedor */
+  width: 100%;
 }
