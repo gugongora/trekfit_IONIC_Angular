@@ -1,0 +1,17 @@
+ion-content {
+    --padding-bottom: 100px; /* Agregar espacio de seguridad para los botones */
+  }
+  
+  .button-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  ion-button {
+    margin-bottom: 10px;
+  }

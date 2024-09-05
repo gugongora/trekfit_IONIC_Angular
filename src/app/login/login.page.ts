@@ -29,8 +29,5 @@ export class LoginPage implements OnInit {
     }
   }
 
-  onRegisterButtonPressed() {
-    this.router.navigate(['/registro'])
-  }
 
 }
