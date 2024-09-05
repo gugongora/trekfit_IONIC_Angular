@@ -1,5 +1,11 @@
 ion-content {
     --padding-bottom: 100px; /* Agregar espacio de seguridad para los botones */
+    --background: none; 
+    background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+        
+
   }
   
   .button-container {

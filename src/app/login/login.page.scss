@@ -1,6 +1,6 @@
 ion-content {
     --background: none; 
-    background-image: url('/assets/img/login.jpg'); /* Imagen de fondo */
+    background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
     background-size: cover;
     background-position: center;
     display: flex;
@@ -13,7 +13,7 @@ ion-content {
 
   .logo-container {
   display: flex;
-  margin-top: 90px;
+  margin-top: 60px;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px; /* Espacio entre el logo y el formulario */
@@ -29,7 +29,7 @@ ion-content {
     background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
     bottom: 0;
-    border-radius: 20px;
+    border-radius: 50px;
     width: 100%;
     padding: 20px;
     display: flex;
@@ -40,6 +40,8 @@ ion-content {
   
   .input-container ion-item {
     margin-bottom: 10px;
+    border-radius: 20px;
     
   }
+
   
