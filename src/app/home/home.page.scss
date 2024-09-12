@@ -1,27 +1,19 @@
-#container {
-  text-align: center;
+ion-content {
+  --background: none; 
+  background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
+  background-size: cover;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.map-container {
+  height: 30%; /* El mapa ocupa el 100% del contenedor */
+  width: 100%;
 }
