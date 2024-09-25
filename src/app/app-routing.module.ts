@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'big-map',
     loadChildren: () => import('./big-map/big-map.module').then( m => m.BigMapPageModule)
   },
+  {
+    path: 'bigmap',
+    loadChildren: () => import('./bigmap/bigmap.module').then( m => m.BigmapPageModule)
+  },
 ];
 
 @NgModule({

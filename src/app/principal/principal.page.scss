@@ -21,3 +21,18 @@ ion-content {
   ion-button {
     margin-bottom: 10px;
   }
+
+  .logo-container {
+    display: flex;
+    margin-top: 60px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio entre el logo y el formulario */
+  }
+  
+  .logo {
+    width: 300px; /* Ajusta el tamaño del logo */
+    height: 300px;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Asegura que la imagen mantenga su proporción dentro del círculo */
+  }

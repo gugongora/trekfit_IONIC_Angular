@@ -14,6 +14,30 @@ ion-content {
 }
 
 .map-container {
-  height: 30%; /* El mapa ocupa el 100% del contenedor */
+  height: 40%; /* El mapa ocupa el 100% del contenedor */
   width: 100%;
+
+
+}
+
+.button-container {
+  height: 17%;
+  width: 100vw; /* Asegura que tome el 100% del ancho de la ventana del navegador */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0; /* Asegúrate de que no haya márgenes */
+  padding: 0; /* Elimina cualquier padding que pueda interferir */
+  box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el ancho total */
+}
+
+
+.button-round {
+  height: 80px;
+  width: 80px;
+}
+
+ion-icon {
+  height: 40px;
+  width: 40px;
 }
