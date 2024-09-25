@@ -1,20 +1,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-item>
+    <ion-avatar aria-hidden="true" slot="start">
+      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>Bienvenido, {{ email }}</ion-label>
+  </ion-item>
+  <div id="map" class="map-container"></div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <ion-card>
+    <ion-card-content>
+      A donde vamos hoy?
+    </ion-card-content>
+  </ion-card>
+
+  <div class="button-container">
+      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
+        <ion-icon slot="icon-only" name="bicycle-outline"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
+        <ion-icon slot="icon-only" name="body-outline"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
+        <ion-icon slot="icon-only" name="barbell-outline"></ion-icon>
+      </ion-button>
+      <ion-button shape="round"  class="button-round" color="success" (click)="goToBigMap()">
+        <ion-icon slot="icon-only" name="heart"></ion-icon>
+      </ion-button>
   </div>
-</ion-content>
+
+  <ion-card>
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <ion-card-header>
+      <ion-card-title>Cerro La Campana</ion-card-title>
+      <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <ion-card-header>
+      <ion-card-title>Salto del Agua</ion-card-title>
+      <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+
+<ion-button expand="full" color="danger" style="margin: 40px;" (click)="performLogout()">Cerrar Sesión
+</ion-button>
+
+
+ </ion-content>
+
+
+

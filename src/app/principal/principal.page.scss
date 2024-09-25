@@ -1,0 +1,38 @@
+ion-content {
+    --padding-bottom: 100px; /* Agregar espacio de seguridad para los botones */
+    --background: none; 
+    background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+        
+
+  }
+  
+  .button-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  ion-button {
+    margin-bottom: 10px;
+  }
+
+  .logo-container {
+    display: flex;
+    margin-top: 60px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio entre el logo y el formulario */
+  }
+  
+  .logo {
+    width: 300px; /* Ajusta el tamaño del logo */
+    height: 300px;
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Asegura que la imagen mantenga su proporción dentro del círculo */
+  }

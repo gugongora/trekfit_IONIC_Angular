@@ -1,0 +1,46 @@
+ion-content {
+    --background: none; 
+    background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: flex-end;
+    --padding-bottom: 30px;
+  }
+  
+
+  .logo-container {
+  display: flex;
+  margin-top: 60px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px; /* Espacio entre el logo y el formulario */
+}
+
+.logo {
+  width: 150px; /* Ajusta el tamaño del logo */
+  height: 150px;
+  border-radius: 50%; /* Hace que la imagen sea circular */
+  object-fit: cover; /* Asegura que la imagen mantenga su proporción dentro del círculo */
+}
+  .content-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    bottom: 0;
+    border-radius: 50px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .input-container ion-item {
+    margin-bottom: 10px;
+    border-radius: 20px;
+    
+  }
+  
