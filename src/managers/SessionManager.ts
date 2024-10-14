@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core'
 
+import firebase from 'firebase/compat';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
 @Injectable({
     providedIn: 'root',
 })
 
 export class SessionManager {
 
-    private readonly temporaryUserName: string = 'hola';
-    private readonly temporaryPass: string = 'hola';
-    private isLoggedIn: boolean = false;  // Variable para controlar el estado de login
+    constructor(public fireAuth: AngularFireAuth){}
+
+
+
+    async registerUserWith(email: string, password: string) : Promise<any> {
+        return await this.fireAuth.createUserWithEmailAndPassword(email, password)
+    }
     
-    performLogin(user: string, password: string): boolean {
-        if(user == this.temporaryUserName && password == this.temporaryPass) {
-            this.isLoggedIn = true;
-            return true;
-        } else {
-            return false;
-        }  
+    async loginWith(email: string, password:string) : Promise<any> {
+        return await this.fireAuth.signInWithEmailAndPassword(email, password)
     }
 
 
-
-    performLogout(): void {
-        this.isLoggedIn = false; // Invalidar la sesión
-        // Aquí puedes limpiar cualquier otro dato de sesión o redirigir a la pantalla de login
-        console.log('Usuario deslogueado');
+    async resetPassword(email: string) {
+        return await this.fireAuth.sendPasswordResetEmail(email)
     }
 
-    isUserLoggedIn(): boolean {
-        return this.isLoggedIn; // Método para verificar el estado de login
+    async getProfile() {
+        return await this.fireAuth.currentUser
+    }
+
+    async signOut() {
+        return await this.fireAuth.signOut()
     }
 
 
-        
 
 
 

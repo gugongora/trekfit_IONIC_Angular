@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import * as L from 'leaflet'; 
-import { SessionManager } from 'src/managers/SessionManager';
+
+import { StorageService } from 'src/managers/StorageService';
 
 
 
@@ -16,28 +16,30 @@ export class HomePage implements OnInit {
   email: string = '';
   map: L.Map | undefined;
   userLocation: L.Marker | undefined; 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
-    private sessionmanager: SessionManager
+  constructor(private router: Router,
+    private storageservice: StorageService
   ) {}
 
 
 
 
-  ngOnInit() {
-    this.route.queryParams.subscribe( params => {
-      this.email = params['email'] || '';
-    }),
+  async ngOnInit() {
     this.loadMap();
+    this.loadData();
   }
   
   goToBigMap(){
     this.router.navigate(['/bigmap']);
   }
 
-  performLogout() {
-    this.sessionmanager.performLogout();
-    this.router.navigate(['/principal']); 
+  async loadData(){
+    const userEmail = await this.storageservice.get('userEmail')
+    this.email = userEmail
+  }
+
+   async performLogout() {
+   await this.storageservice.clear()
+    this.router.navigate(['/splash']); 
 }
 
 loadMap() {
