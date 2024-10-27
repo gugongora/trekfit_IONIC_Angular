@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Bitacora</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="content-container">
+    <div class="input-container">
+      <p>Fecha actual: {{ currentDate }}</p>
+      <p>Latitud: {{ latitude }}</p>
+      <p>Longitud: {{ longitude }}</p>
+      <ion-item>
+        <ion-input placeholder="Descripcion" [(ngModel)]="descripcion"></ion-input>
+      </ion-item>
+      <ion-button (click)="takePhoto()">Tomar Foto</ion-button>
+
+               <!-- Mostrar la imagen capturada -->
+     <img *ngIf="capturedPhoto" [src]="capturedPhoto" alt="Foto tomada" />
+    </div>
+  
+    <div class="button-container">
+      <ion-button color="success" expand="block" (click)="onSaveButtonPressed()">Guardar</ion-button>
+    </div>
+  </div>
+</ion-content>

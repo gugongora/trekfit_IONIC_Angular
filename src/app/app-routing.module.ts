@@ -28,12 +28,12 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'big-map',
-    loadChildren: () => import('./big-map/big-map.module').then( m => m.BigMapPageModule)
-  },
-  {
     path: 'bigmap',
     loadChildren: () => import('./bigmap/bigmap.module').then( m => m.BigmapPageModule)
+  },
+  {
+    path: 'bitacora',
+    loadChildren: () => import('./bitacora/bitacora.module').then( m => m.BitacoraPageModule)
   },
 ];
 

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseonfig: {
+  firebaseConfig: {
     apiKey: "AIzaSyC5ff9x5OYZ0eXtfxQYFkzzGKyu3xlIXqQ",
     authDomain: "chiletrek-79c45.firebaseapp.com",
     projectId: "chiletrek-79c45",

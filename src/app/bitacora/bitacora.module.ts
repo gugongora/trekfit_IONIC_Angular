@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BigMapPageRoutingModule } from './big-map-routing.module';
+import { BitacoraPageRoutingModule } from './bitacora-routing.module';
 
-import { BigMapPage } from './big-map.page';
+import { BitacoraPage } from './bitacora.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BigMapPageRoutingModule
+    BitacoraPageRoutingModule
   ],
-  declarations: [BigMapPage]
+  declarations: [BitacoraPage]
 })
-export class BigMapPageModule {}
+export class BitacoraPageModule {}
