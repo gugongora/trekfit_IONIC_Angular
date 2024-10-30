@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager';
 import { StorageService } from 'src/managers/StorageService';
+import { UserLoginUseCase } from '../use-cases/user-login.use-case';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,9 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router, 
     private sessionManager: SessionManager,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private userlogin: UserLoginUseCase,
+    private alert: CancelAlertService
   ) { }
 
     email: string = '';
@@ -23,25 +27,24 @@ export class LoginPage implements OnInit {
   ngOnInit() { }
 
   async onLoginButtonPressed() {
+    const result = await this.userlogin.performLogin(this.email, this.password);
 
-    try {
-
-      const userCredential = await this.sessionManager.loginWith(this.email, this.password)
-      const user = userCredential.user
-
-      const userData = {
-        uid: user.uid,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      }
-
-      await this.storageService.set('user', userData)
-      this.router.navigate(['/home'])
-
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
+    if (result.success) {
+      this.alert.showAlert(
+        'Login exitoso',
+        'Has iniciado sesión correctamente.',
+        () => {
+          this.router.navigate(['/splash']); // Navegar a 'splash' cuando el usuario presiona "Aceptar"
+        }
+      );
+    } else {
+      this.alert.showAlert(
+        'Error',
+        result.message,
+        () => {
+          // Se puede agregar alguna lógica aquí si es necesario
+        }
+      );
     }
   }
 

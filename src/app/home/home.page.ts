@@ -4,6 +4,8 @@ import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from 'src/managers/StorageService';
 import * as polyline from 'polyline';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
+import { UserLogoutUseCase } from '../use-cases/user-logout.user-case';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +13,8 @@ import * as polyline from 'polyline';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  user: any;
 
   email: string = '';
   map: L.Map | any;
@@ -20,11 +24,20 @@ export class HomePage implements OnInit {
 
   constructor(private router: Router,
               private storageservice: StorageService,
-              private http: HttpClient) {}
+              private http: HttpClient,
+            private cancelAlertService: CancelAlertService,
+          private logoutUseCase: UserLogoutUseCase) {}
 
   async ngOnInit() {
     this.loadMap();
     this.loadData();
+  }
+
+  async ionViewDidEnter() {
+    this.user = await this.storageservice.get('user');
+    if (!this.user) {
+      console.log('No se encontraron datos del usuario.');
+    }
   }
   
   goToBigMap() {
@@ -39,9 +52,16 @@ export class HomePage implements OnInit {
     this.email = userEmail.email;
   }
 
-  async performLogout() {
-    await this.storageservice.clear();
-    this.router.navigate(['/splash']); 
+  async onSignOutButtonPressed() {
+    this.cancelAlertService.showAlert(
+      'Cerrar sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
+      async () => {
+        this.logoutUseCase.performLogout();
+        this.router.navigate(['/splash']);
+      },
+      () => { }
+    );
   }
 
   // Función para obtener la ruta desde la API
