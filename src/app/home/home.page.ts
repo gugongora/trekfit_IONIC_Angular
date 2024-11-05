@@ -64,6 +64,12 @@ export class HomePage implements OnInit {
     );
   }
 
+  async onUpdateButtonPressed(){
+
+    //pa el martin
+
+  }
+
   // Función para obtener la ruta desde la API
   getRoute(lat: number, lon: number, destLat: number, destLon: number) {
     const url = `${this.apiUrl}?origin=${lat},${lon}&destination=${destLat},${destLon}&mode=driving&key=${this.apiKey}`;

@@ -11,8 +11,10 @@
         <ion-avatar aria-hidden="true" slot="start">
           <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
-        <ion-label>Bienvenido,{{ email }}</ion-label>
+        
+        <ion-label>Bienvenido,{{ user?.email }}</ion-label>
       </ion-item>
+      <ion-label>{{ user?.displayName || 'Nombre no disponible' }}</ion-label>
     </ion-content>
   </ion-menu>
 

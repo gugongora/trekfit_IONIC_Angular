@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { UserBitacoraUseCase } from '../use-cases/user-bitacora-save';
+
 
 
 
@@ -16,12 +18,12 @@ export class BitacoraPage implements OnInit {
 
   descripcion: string = "";
   currentDate: string = "";
-  latitude: number | null = null;
-  longitude: number | null = null;
+  latitude: number = 0;
+  longitude: number = 0;
   capturedPhoto: string | any; // Para almacenar la imagen tomada
   
 
-  constructor(private db: AngularFireDatabase) { 
+  constructor(private db: AngularFireDatabase, private userbitacorausecase: UserBitacoraUseCase) { 
     this.getCurrentDate();
     this.getCurrentPosition();
   }
@@ -29,10 +31,13 @@ export class BitacoraPage implements OnInit {
   ngOnInit() {  
   }
 
-  onSaveButtonPressed(){
+  async onSaveButtonPressed(){
+
+    this.userbitacorausecase.performBitacoraSave(this.currentDate, this.latitude, this.longitude, this.descripcion, this.capturedPhoto );
 
 
   }
+
 
   getCurrentDate() {
     const today = new Date();
@@ -71,3 +76,5 @@ export class BitacoraPage implements OnInit {
 
 
 }
+
+
