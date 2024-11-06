@@ -14,7 +14,20 @@
         
         <ion-label>Bienvenido,{{ user?.email }}</ion-label>
       </ion-item>
-      <ion-label>{{ user?.displayName || 'Nombre no disponible' }}</ion-label>
+      <ion-item>
+        <ion-button expand="full" color="light" (click)="goTobitacora()">Crear Bitacora
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button  expand="full" color="light" (click)="goToMemories()">    Memories
+          <ion-icon slot="icon-only" name="file-tray-full-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+      <ion-button expand="full" color="danger"  (click)="onSignOutButtonPressed()">Cerrar Sesión</ion-button>
+    </ion-item>
     </ion-content>
   </ion-menu>
 
@@ -40,10 +53,10 @@
 
       <div class="button-container">
         <ion-button shape="round" class="button-round" color="success" (click)="goTobitacora()">
-          <ion-icon slot="icon-only" name="bicycle-outline"></ion-icon>
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-button>
-        <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
-          <ion-icon slot="icon-only" name="body-outline"></ion-icon>
+        <ion-button shape="round" class="button-round" color="success" (click)="goToMemories()">
+          <ion-icon slot="icon-only" name="file-tray-full-outline"></ion-icon>
         </ion-button>
         <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
           <ion-icon slot="icon-only" name="barbell-outline"></ion-icon>
@@ -54,7 +67,7 @@
       </div>
 
       <ion-card>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <img alt="Silhouette of mountains" src="https://chileestuyo.cl/wp-content/uploads/2019/11/parquelacampanaolue.jpg" />
         <ion-card-header>
           <ion-card-title>Cerro La Campana</ion-card-title>
           <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
@@ -65,7 +78,7 @@
       </ion-card>
 
       <ion-card>
-        <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+        <img alt="Silhouette of mountains" src="https://media.biobiochile.cl/wp-content/uploads/2022/07/salto-del-agua-cadete-cae.jpg" />
         <ion-card-header>
           <ion-card-title>Salto del Agua</ion-card-title>
           <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
@@ -74,8 +87,6 @@
           Here's a small text description for the card content. Nothing more, nothing less.
         </ion-card-content>
       </ion-card>
-
-      <ion-button expand="full" color="danger" style="margin: 40px;" (click)="onSignOutButtonPressed()">Cerrar Sesión</ion-button>
     </ion-content>
   </div>
 </ion-app>

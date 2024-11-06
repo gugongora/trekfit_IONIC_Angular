@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionManager } from 'src/managers/SessionManager';
-import { StorageService } from 'src/managers/StorageService';
 import { UserLoginUseCase } from '../use-cases/user-login.use-case';
 import { CancelAlertService } from 'src/managers/CancelAlertService';
 
@@ -14,8 +12,6 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router, 
-    private sessionManager: SessionManager,
-    private storageService: StorageService,
     private userlogin: UserLoginUseCase,
     private alert: CancelAlertService
   ) { }

@@ -30,9 +30,9 @@ export class RegistroPage {
     if (result.success) {
       this.alert.showAlert(
         'Registro exitoso',
-        'Ya eres parte de nuestro sistema',
+        'Ya se ha guardado tu recuerdo!',
         () => {
-          this.router.navigate(['/splash']);
+          this.router.navigate(['/home']);
         }
       );
     } else {

@@ -11,20 +11,21 @@ export class BigmapPage implements OnInit {
 
   map: L.Map | undefined;
   userLocation: L.Marker | undefined; 
-  email: string = '';
+  latitud: number = 0;
+  longitud: number = 0;
 
-  constructor(private route: ActivatedRoute) {}
-
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe( params => {
-      this.email = params['email'] || '';
-    }),
+    // Suscribirse a los queryParams para obtener las latitud y longitud
+    this.route.queryParams.subscribe(params => {
+      this.latitud = params['lat'];  // Recibe la latitud desde los queryParams
+      this.longitud = params['lon'];  // Recibe la longitud desde los queryParams
+    });
+    
+    // Cargar el mapa después de recibir los parámetros
     this.loadMap();
   }
-
-
-
 
   loadMap() {
     const defaultIcon = L.icon({
@@ -41,48 +42,25 @@ export class BigmapPage implements OnInit {
     if (this.map) {
       return;  // Si ya existe un mapa, no hacemos nada
     }
-  
-    // Verifica si el navegador tiene soporte para geolocalización
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-  
-          // Crea el mapa solo si no ha sido creado ya
-          this.map = L.map('map').setView([latitude, longitude], 17);
-  
-          // Cargar el mapa de OpenStreetMap
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          }).addTo(this.map);
-  
-          // Coloca un marcador en la ubicación del usuario
-          this.userLocation = L.marker([latitude, longitude], { icon: defaultIcon })
-            .addTo(this.map)
-            .bindPopup('Tu ubicación actual')
-            .openPopup();
-        },
-        (error) => {
-          // Manejo de errores en la obtención de la ubicación
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              alert('Permiso de geolocalización denegado.');
-              break;
-            case error.POSITION_UNAVAILABLE:
-              alert('La ubicación no está disponible.');
-              break;
-            case error.TIMEOUT:
-              alert('La solicitud para obtener la ubicación ha caducado.');
-              break;
-            default:
-              alert('Error desconocido al obtener la ubicación.');
-              break;
-          }
-        }
-      );
+    
+    // Asegurarse de que latitud y longitud son válidos
+    if (this.latitud && this.longitud) {
+      // Crear el mapa y centrarlo en las coordenadas pasadas como parámetros
+      this.map = L.map('map').setView([this.latitud, this.longitud], 17);
+    
+      // Cargar el mapa de OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(this.map);
+    
+      // Colocar un marcador en la ubicación recibida
+      this.userLocation = L.marker([this.latitud, this.longitud], { icon: defaultIcon })
+        .addTo(this.map)
+        .bindPopup('Ubicación de la bitácora')
+        .openPopup();
     } else {
-      alert('Geolocalización no soportada por el navegador');
+      // Si no se recibió latitud y longitud, mostrar mensaje o usar geolocalización como fallback
+      alert('No se recibió información de ubicación');
     }
   }
 

@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/bitacoras"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Bitácora</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Formulario para editar la bitácora -->
+  <form (ngSubmit)="saveChanges()">
+    <ion-item>
+      <ion-label position="floating">Fecha</ion-label>
+      <ion-input [(ngModel)]="fecha" name="fecha" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input [(ngModel)]="descripcion" name="descripcion" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Latitud</ion-label>
+      <ion-input [(ngModel)]="latitud" name="latitud" type="number" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Longitud</ion-label>
+      <ion-input [(ngModel)]="longitud" name="longitud" type="number" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">URL de Foto</ion-label>
+      <ion-input [(ngModel)]="photoURL" name="photoURL" type="text"></ion-input>
+    </ion-item>
+
+    <!-- Botón de guardar -->
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button type="submit" color="primary">Guardar cambios</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </form>
+</ion-content>

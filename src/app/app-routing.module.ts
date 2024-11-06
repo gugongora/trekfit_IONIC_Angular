@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
 const routes: Routes = [
   {
     path: 'home',
@@ -34,6 +35,14 @@ const routes: Routes = [
   {
     path: 'bitacora',
     loadChildren: () => import('./bitacora/bitacora.module').then( m => m.BitacoraPageModule)
+  },
+  {
+    path: 'memories',
+    loadChildren: () => import('./memories/memories.module').then( m => m.MemoriesPageModule)
+  },
+  {
+    path: 'edit-bitacora',
+    loadChildren: () => import('./edit-bitacora/edit-bitacora.module').then( m => m.EditBitacoraPageModule)
   },
 ];
 

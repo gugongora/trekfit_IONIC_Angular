@@ -1,57 +1,58 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserBitacoraUseCase {
+export class UserBitacoraService {
 
-  constructor(
-    private db: AngularFireDatabase
-  ) {}
+  constructor(private db: AngularFireDatabase) {}
 
-  async performBitacoraSave(fecha: string, latitud: number, longitud: number, descripcion: string, photoURL: string ): Promise<{ success: boolean; message: string }> {
+  // Obtener las bitácoras con su id
+  getBitacoras(): Observable<any[]> {
+    return this.db.list('/bitacora').snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({ 
+          id: c.payload.key,  // La clave de Firebase (id de la bitácora)
+          ...c.payload.val() as object  // El resto de los datos de la bitácora
+        }))
+      )
+    );
+  }
+
+  // Guardar una nueva bitácora
+  async performBitacoraSave(
+    fecha: string,
+    latitud: number,
+    longitud: number,
+    descripcion: string,
+    photoURL: string
+  ): Promise<{ success: boolean; message: string }> {
     try {
+      // Creamos el objeto de la bitácora con los datos
+      const bitacoraData = {
+        fecha: fecha,
+        latitud: latitud,
+        longitud: longitud,
+        descripcion: descripcion,
+        foto: photoURL
+      };
 
-        const id2 = 1;
+      // Usamos push() para crear un nuevo ID automáticamente
+      const newBitacoraRef = this.db.list('/bitacora').push(bitacoraData);
 
-        // Crear objeto con los datos de la bitacora
-        const bitacoraData = {
-          id: id2,
-          fecha: fecha,
-          latitud: latitud,
-          longitud: longitud,
-          descripcion: descripcion,
-          foto: photoURL
-        };
+      // Después de guardar la bitácora, obtenemos el ID generado por Firebase
+      const newId = newBitacoraRef.key;
 
-        // Guarda la información del usuario en Realtime Database
-        await this.db.object(`/users/${id2}`).set(bitacoraData);
-      
-
-      // Devuelve true si fue exitoso, con un mensaje
-      return { success: true, message: "Usuario registrado con éxito" };
-
+      // Si el ID se ha generado correctamente, devuelve el mensaje de éxito
+      return {
+        success: true,
+        message: `Bitácora registrada con éxito. ID: ${newId}`,
+      };
     } catch (error: any) {
-      // Manejo de errores basado en el código de Firebase
-      let errorMessage = 'Ocurrió un error al registrar el usuario';
-
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          errorMessage = 'Este correo electrónico ya está en uso. Por favor, utiliza otro o inicia sesión.';
-          break;
-        case 'auth/invalid-email':
-          errorMessage = 'La dirección de correo electrónico no es válida.';
-          break;
-        case 'auth/weak-password':
-          errorMessage = 'La contraseña es muy débil.';
-          break;
-        default:
-          errorMessage += ': ' + error.message;
-          break;
-      }
-
-      // Devuelve false si hubo un error, junto con el mensaje de error
+      let errorMessage = 'Ocurrió un error al registrar la bitácora';
       return { success: false, message: errorMessage };
     }
   }

@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Bitácora</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Lista de bitácoras -->
+  <ion-list>
+    <ion-item *ngFor="let bitacora of bitacoras$ | async; let i = index">
+      <ion-label>
+        <h2>Bitácora {{ i + 1 }}</h2>
+        <p><strong>Fecha:</strong> {{ bitacora.fecha }}</p>
+        <p><strong>Descripción:</strong> {{ bitacora.descripcion }}</p>
+        <p><strong>Latitud:</strong> {{ bitacora.latitud }}</p>
+        <p><strong>Longitud:</strong> {{ bitacora.longitud }}</p>
+        <!-- Mostrar foto si existe -->
+        <img *ngIf="bitacora.foto" [src]="bitacora.foto" alt="Foto de la bitácora" />
+
+        <!-- Botones: Ver detalles, Eliminar y Editar -->
+        <ion-buttons slot="end">
+          <ion-button (click)="goToBitacoraDetalle(bitacora.latitud, bitacora.longitud)">Ver detalles</ion-button>
+          <ion-button color="danger" (click)="deleteBitacora(bitacora.id)">Eliminar</ion-button>
+          <ion-button color="primary" (click)="editBitacora(bitacora.id)">Editar</ion-button>
+        </ion-buttons>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

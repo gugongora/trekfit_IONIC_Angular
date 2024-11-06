@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { UserBitacoraUseCase } from '../use-cases/user-bitacora-save';
+import { UserBitacoraService } from '../use-cases/user-bitacora-save';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
+import { Router } from '@angular/router';
 
 
 
@@ -23,7 +25,7 @@ export class BitacoraPage implements OnInit {
   capturedPhoto: string | any; // Para almacenar la imagen tomada
   
 
-  constructor(private db: AngularFireDatabase, private userbitacorausecase: UserBitacoraUseCase) { 
+  constructor(private db: AngularFireDatabase, private userbitacorausecase: UserBitacoraService, private alert: CancelAlertService, private router: Router) { 
     this.getCurrentDate();
     this.getCurrentPosition();
   }
@@ -33,10 +35,37 @@ export class BitacoraPage implements OnInit {
 
   async onSaveButtonPressed(){
 
-    this.userbitacorausecase.performBitacoraSave(this.currentDate, this.latitude, this.longitude, this.descripcion, this.capturedPhoto );
+    const result = await this.userbitacorausecase.performBitacoraSave(this.currentDate, this.latitude, this.longitude, this.descripcion, this.capturedPhoto );
+
+        // Si hay un mensaje de éxito, navega a otra vista
+        if (result.success) {
+          this.alert.showAlert(
+            'Bitacora guardada',
+            'Ya haz dejado un registro en Memories',
+            () => {
+              this.router.navigate(['/home']);
+            }
+          );
+        } else {
+          // Muestra el error proporcionado por el caso de uso
+          this.alert.showAlert(
+            'Error',
+            result.message,
+            () => {
+              this.clean();
+            }
+          );
+        }
 
 
   }
+
+  clean() {
+    this.descripcion = '';
+    this.currentDate = '';
+    this,this.capturedPhoto = '';
+  }
+
 
 
   getCurrentDate() {
