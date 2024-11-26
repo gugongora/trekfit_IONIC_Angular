@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { StorageService } from 'src/managers/StorageService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserBitacoraService {
 
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFireDatabase, storageService: StorageService) {}
 
   // Obtener las bitácoras con su id
   getBitacoras(): Observable<any[]> {
-    return this.db.list('/bitacora').snapshotChanges().pipe(
+    return this.db.list('/users/').snapshotChanges().pipe(
       map(changes => 
         changes.map(c => ({ 
           id: c.payload.key,  // La clave de Firebase (id de la bitácora)
@@ -31,6 +32,7 @@ export class UserBitacoraService {
     photoURL: string
   ): Promise<{ success: boolean; message: string }> {
     try {
+
       // Creamos el objeto de la bitácora con los datos
       const bitacoraData = {
         fecha: fecha,
