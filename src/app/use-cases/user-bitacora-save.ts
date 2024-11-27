@@ -2,28 +2,33 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StorageService } from 'src/managers/StorageService';
+import { StorageService } from 'src/managers/StorageService'; // Asegúrate de que StorageService esté correctamente importado
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserBitacoraService {
+  constructor(
+    private db: AngularFireDatabase,
+    private storageService: StorageService // Usamos StorageService para obtener el UID
+  ) {}
 
-  constructor(private db: AngularFireDatabase, storageService: StorageService) {}
-
-  // Obtener las bitácoras con su id
-  getBitacoras(): Observable<any[]> {
-    return this.db.list('/users/').snapshotChanges().pipe(
-      map(changes => 
-        changes.map(c => ({ 
-          id: c.payload.key,  // La clave de Firebase (id de la bitácora)
-          ...c.payload.val() as object  // El resto de los datos de la bitácora
-        }))
-      )
-    );
+  // Obtener las bitácoras de un usuario específico
+  getBitacoras(usuarioId: string): Observable<any[]> {
+    return this.db
+      .list(`/users/${usuarioId}/bitacoras`)
+      .snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => ({
+            id: c.payload.key,
+            ...c.payload.val() as object,
+          }))
+        )
+      );
   }
 
-  // Guardar una nueva bitácora
+  // Guardar una nueva bitácora para el usuario logueado
   async performBitacoraSave(
     fecha: string,
     latitud: number,
@@ -32,30 +37,39 @@ export class UserBitacoraService {
     photoURL: string
   ): Promise<{ success: boolean; message: string }> {
     try {
+      // Obtener el usuario actual desde Ionic Storage
+      const currentUser = await this.storageService.get('user');
+      const uid = currentUser?.uid; // Obtener el UID del usuario
 
-      // Creamos el objeto de la bitácora con los datos
+      if (!uid) {
+        // Si no se encuentra el UID, significa que no hay usuario autenticado
+        return { success: false, message: 'Usuario no autenticado' };
+      }
+
+      // Crear el objeto de la bitácora
       const bitacoraData = {
-        fecha: fecha,
-        latitud: latitud,
-        longitud: longitud,
-        descripcion: descripcion,
-        foto: photoURL
+        fecha,
+        latitud,
+        longitud,
+        descripcion,
+        foto: photoURL,
       };
 
-      // Usamos push() para crear un nuevo ID automáticamente
-      const newBitacoraRef = this.db.list('/bitacora').push(bitacoraData);
+      // Guardar la bitácora bajo la ruta del usuario
+      const newBitacoraRef = this.db
+        .list(`/users/${uid}/bitacoras`)
+        .push(bitacoraData);
 
-      // Después de guardar la bitácora, obtenemos el ID generado por Firebase
+      // Obtener el ID generado por Firebase
       const newId = newBitacoraRef.key;
 
-      // Si el ID se ha generado correctamente, devuelve el mensaje de éxito
       return {
         success: true,
         message: `Bitácora registrada con éxito. ID: ${newId}`,
       };
     } catch (error: any) {
-      let errorMessage = 'Ocurrió un error al registrar la bitácora';
-      return { success: false, message: errorMessage };
+      console.error('Error al guardar la bitácora: ', error);
+      return { success: false, message: 'Ocurrió un error al registrar la bitácora' };
     }
   }
 }

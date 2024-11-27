@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Para acceder al ID de la URL
-import { UserBitacoraService } from '../use-cases/user-bitacora-save';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFireDatabase } from '@angular/fire/compat/database'; // Importar AngularFireDatabase
+import { StorageService } from 'src/managers/StorageService'; // Importar StorageService
 import { UserBitacoraUpdateService } from '../use-cases/user-bitacora-update';
+
+// Definir la interfaz Bitacora
+interface Bitacora {
+  fecha: string;
+  latitud: number;
+  longitud: number;
+  descripcion: string;
+  foto?: string;
+}
 
 @Component({
   selector: 'app-edit-bitacora',
@@ -15,12 +25,14 @@ export class EditBitacoraPage implements OnInit {
   longitud: number = 0;
   descripcion: string = '';
   photoURL: string = '';
+  uid: string = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private userBitacoraService: UserBitacoraUpdateService,
-    private userbitacora : UserBitacoraService,
-    private router: Router
+    private db: AngularFireDatabase,  // Inyectar AngularFireDatabase
+    private storageService: StorageService,  // Para acceder al UID
+    private router: Router,
+    private update: UserBitacoraUpdateService
   ) {}
 
   ngOnInit() {
@@ -32,24 +44,37 @@ export class EditBitacoraPage implements OnInit {
   }
 
   // Cargar los datos de la bitácora a editar
-  loadBitacoraData(id: string) {
-    // Aquí deberías recuperar la bitácora de la base de datos usando el ID
-    // Ejemplo de cómo podrías cargar la bitácora:
-    this.userbitacora.getBitacoras().subscribe(bitacoras => {
-      const bitacora = bitacoras.find(b => b.id === id);
-      if (bitacora) {
-        this.fecha = bitacora.fecha;
-        this.latitud = bitacora.latitud;
-        this.longitud = bitacora.longitud;
-        this.descripcion = bitacora.descripcion;
-        this.photoURL = bitacora.foto;
-      }
-    });
+  async loadBitacoraData(id: string) {
+    const currentUser = await this.storageService.get('user');
+    this.uid = currentUser?.uid;
+
+    if (this.uid) {
+      // Obtener la referencia de la bitácora
+      const bitacoraRef = this.db.object(`/users/${this.uid}/bitacoras/${id}`);
+      bitacoraRef.snapshotChanges().subscribe(snapshot => {
+        const bitacora = snapshot.payload.val() as Bitacora; // Aplicar el tipo Bitacora
+        if (bitacora) {
+          this.fecha = bitacora.fecha;
+          this.latitud = bitacora.latitud;
+          this.longitud = bitacora.longitud;
+          this.descripcion = bitacora.descripcion;
+          this.photoURL = bitacora.foto || ''; // Si no tiene foto, se asigna una cadena vacía
+        }
+      });
+    } else {
+      console.error('No hay usuario logueado');
+    }
   }
 
   // Guardar los cambios de la bitácora
   saveChanges() {
-    this.userBitacoraService.updateBitacora(
+    if (!this.uid) {
+      alert('No se puede guardar los cambios, no hay usuario logueado');
+      return;
+    }
+
+    // Aquí llamamos al servicio de actualización para guardar los cambios
+    this.update.updateBitacora(
       this.bitacoraId,
       this.fecha,
       this.latitud,
@@ -58,7 +83,9 @@ export class EditBitacoraPage implements OnInit {
       this.photoURL
     ).then(result => {
       alert(result.message);  // Mostrar el mensaje de éxito o error
-      this.router.navigate(['/memories']);  // Volver a la lista de bitácoras
+      if (result.success) {
+        this.router.navigate(['/memories']);  // Volver a la lista de bitácoras
+      }
     });
   }
 }

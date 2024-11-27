@@ -10,15 +10,18 @@
 <ion-content>
   <!-- Lista de bitácoras -->
   <ion-list>
+    <!-- Verificamos que bitacoras$ tiene datos y los iteramos con *ngFor -->
     <ion-item *ngFor="let bitacora of bitacoras$ | async; let i = index">
       <ion-label>
+        <!-- Mostrar la información de la bitácora -->
         <h2>Bitácora {{ i + 1 }}</h2>
         <p><strong>Fecha:</strong> {{ bitacora.fecha }}</p>
         <p><strong>Descripción:</strong> {{ bitacora.descripcion }}</p>
         <p><strong>Latitud:</strong> {{ bitacora.latitud }}</p>
         <p><strong>Longitud:</strong> {{ bitacora.longitud }}</p>
+
         <!-- Mostrar foto si existe -->
-        <img *ngIf="bitacora.foto" [src]="bitacora.foto" alt="Foto de la bitácora" />
+        <img *ngIf="bitacora.foto" [src]="bitacora.foto" alt="Foto de la bitácora" class="bitacora-foto" />
 
         <!-- Botones: Ver detalles, Eliminar y Editar -->
         <ion-buttons slot="end">
@@ -26,6 +29,13 @@
           <ion-button color="danger" (click)="deleteBitacora(bitacora.id)">Eliminar</ion-button>
           <ion-button color="primary" (click)="editBitacora(bitacora.id)">Editar</ion-button>
         </ion-buttons>
+      </ion-label>
+    </ion-item>
+
+    <!-- Mensaje si no hay bitácoras -->
+    <ion-item *ngIf="(bitacoras$ | async)?.length === 0">
+      <ion-label>
+        <p>No hay bitácoras registradas.</p>
       </ion-label>
     </ion-item>
   </ion-list>

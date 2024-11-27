@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-
+import { StorageService } from 'src/managers/StorageService'; // Importar StorageService
 
 @Injectable({
   providedIn: 'root',
@@ -8,16 +8,24 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 export class UserBitacoraDeleteUseCase {
 
   constructor(
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private storageService: StorageService  // Usamos StorageService para obtener el UID del usuario
   ) {}
 
-
-
-// Borrar una bitácora dada su ID
-async deleteBitacora(id: string): Promise<{ success: boolean; message: string }> {
+  // Borrar una bitácora dada su ID
+  async deleteBitacora(id: string): Promise<{ success: boolean; message: string }> {
     try {
-      // Referencia a la bitácora a borrar
-      const bitacoraRef = this.db.list('/bitacora').remove(id);
+      // Obtener el usuario actual desde StorageService
+      const currentUser = await this.storageService.get('user');
+      const uid = currentUser?.uid;
+
+      if (!uid) {
+        // Si no hay un usuario logueado, retornar un error
+        return { success: false, message: 'Usuario no autenticado' };
+      }
+
+      // Referencia a la bitácora específica del usuario
+      const bitacoraRef = this.db.list(`/users/${uid}/bitacoras`).remove(id);
 
       // Esperar a que Firebase complete la eliminación
       await bitacoraRef;
@@ -28,8 +36,8 @@ async deleteBitacora(id: string): Promise<{ success: boolean; message: string }>
         message: `Bitácora con ID: ${id} eliminada con éxito.`,
       };
     } catch (error: any) {
-      let errorMessage = 'Ocurrió un error al intentar eliminar la bitácora';
-      return { success: false, message: errorMessage };
+      console.error('Error al eliminar la bitácora:', error);
+      return { success: false, message: 'Ocurrió un error al intentar eliminar la bitácora' };
     }
   }
 }
