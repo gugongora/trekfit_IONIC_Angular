@@ -1,0 +1,21 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .photo-section {
+    text-align: center;
+  }
+  
+  .photo-preview {
+    margin-top: 1rem;
+    max-width: 100%;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+  }
+  
+  .button-container ion-button {
+    margin-top: 15px;
+  }
+  

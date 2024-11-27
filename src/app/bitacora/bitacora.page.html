@@ -1,30 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home" text="Atrás" icon="chevron-back-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title>Bitacora</ion-title>
+    <ion-title>Bitácora</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
   <div class="content-container">
-    <div class="input-container">
-      <p>Fecha actual: {{ currentDate }}</p>
-      <p>Latitud: {{ latitude }}</p>
-      <p>Longitud: {{ longitude }}</p>
-      <ion-item>
-        <ion-input placeholder="Descripcion" [(ngModel)]="descripcion"></ion-input>
-      </ion-item>
-      <ion-button (click)="takePhoto()">Tomar Foto</ion-button>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Detalles de la Ubicación</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><ion-icon name="calendar-outline"></ion-icon> Fecha: {{ currentDate }}</p>
+        <p><ion-icon name="location-outline"></ion-icon> Latitud: {{ latitude }}</p>
+        <p><ion-icon name="location-outline"></ion-icon> Longitud: {{ longitude }}</p>
+      </ion-card-content>
+    </ion-card>
 
-               <!-- Mostrar la imagen capturada -->
-     <img *ngIf="capturedPhoto" [src]="capturedPhoto" alt="Foto tomada" />
+    <ion-item>
+      <ion-label position="floating"><ion-icon name="text-outline"></ion-icon></ion-label>
+      <ion-input placeholder="Describe tu experiencia" [(ngModel)]="descripcion"></ion-input>
+    </ion-item>
+
+    <div class="photo-section">
+      <ion-button color="tertiary" expand="block" (click)="takePhoto()">
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        Tomar Foto
+      </ion-button>
+      <img *ngIf="capturedPhoto" [src]="capturedPhoto" alt="Foto tomada" class="photo-preview" />
     </div>
-  
+    
     <div class="button-container">
-      <ion-button color="success" expand="block" (click)="onSaveButtonPressed()">Guardar</ion-button>
+      <ion-button color="success" expand="block" (click)="onSaveButtonPressed()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar
+      </ion-button>
     </div>
   </div>
 </ion-content>
