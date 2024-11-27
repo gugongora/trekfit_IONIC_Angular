@@ -2,7 +2,10 @@ ion-content {
   --background: none; 
   background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
   background-size: cover;
+}
 
+ion-button {
+  align-items: center;
 }
 
 .centered-container {
@@ -10,14 +13,11 @@ ion-content {
   justify-content: center;
   align-items: center;
   height: 100vh;
-
 }
 
 .map-container {
   height: 40%; /* El mapa ocupa el 100% del contenedor */
   width: 100%;
-
-
 }
 
 .button-container {
@@ -31,7 +31,6 @@ ion-content {
   box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el ancho total */
 }
 
-
 .button-round {
   height: 80px;
   width: 80px;
@@ -41,3 +40,88 @@ ion-icon {
   height: 40px;
   width: 40px;
 }
+
+.stats-container {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  padding: 15px;
+  color: white;
+  margin-bottom: 20px; /* Añade espacio entre el contenedor de estadísticas y los botones */
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+}
+
+.stats-item ion-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.progress-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.progress-section h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.progress-label {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #7fff00;
+}
+
+.activity-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.activity-buttons ion-button {
+  text-align: center;
+  font-size: 12px;
+}
+
+.activity-buttons ion-icon {
+  margin-right: 5px;
+}
+
+/* Cambios adicionales */
+
+/* Reducir el tamaño de la fuente en el saludo */
+ion-item ion-label {
+  font-size: 12px; /* Ajusta el tamaño según sea necesario */
+  line-height: 1.4; /* Mejora la legibilidad */
+}
+
+/* Separar el bloque de botones "Crear Bitácora" y "Memories" */
+ion-item {
+  margin-top: 15px; /* Añade margen superior para separar los bloques */
+  align-items: center;
+}
+
+ion-item:first-of-type {
+  margin-top: 0; /* El primer elemento no necesita margen */
+}
+
+ion-menu {
+  --background: #000000; /* Fondo negro */
+  color: white; /* Color blanco para el texto dentro del menú */
+}
+
+/* Asegúrate de que los ion-items y otros elementos del menú sean visibles */
+ion-menu ion-item {
+  --color: white; /* Color de texto blanco */
+}
+
