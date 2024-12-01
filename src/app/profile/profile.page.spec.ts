@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BigMapPage } from './big-map.page';
+import { ProfilePage } from './profile.page';
 
-describe('BigMapPage', () => {
-  let component: BigMapPage;
-  let fixture: ComponentFixture<BigMapPage>;
+describe('ProfilePage', () => {
+  let component: ProfilePage;
+  let fixture: ComponentFixture<ProfilePage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BigMapPage);
+    fixture = TestBed.createComponent(ProfilePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

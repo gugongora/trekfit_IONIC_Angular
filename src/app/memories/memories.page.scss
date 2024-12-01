@@ -1,0 +1,108 @@
+/* Fondo y color principal de la página */
+ion-content {
+    background-color: #121212; /* Fondo oscuro */
+    color: #f0f0f0; /* Texto claro */
+  }
+  
+  /* Estilo para los items de la lista */
+  ion-item {
+    background-color: #1e1e1e; /* Fondo oscuro para cada item */
+    margin: 10px 0; /* Espacio entre items */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: background-color 0.3s ease; /* Transición para hover */
+  }
+  
+  /* Efecto al pasar el cursor sobre los items */
+  ion-item:hover {
+    background-color: #2c2c2c; /* Fondo ligeramente más claro */
+  }
+  
+  /* Títulos y texto dentro de cada item */
+  ion-item h2 {
+    color: #ffffff; /* Título en blanco */
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  ion-item p {
+    font-size: 14px;
+    color: #dcdcdc; /* Texto de detalles en gris claro */
+  }
+  
+  ion-item strong {
+    color: #ffbb33; /* Color destacado para etiquetas */
+  }
+  
+  /* Estilo de las imágenes de las bitácoras */
+  .bitacora-foto {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover; /* Asegura que la imagen ocupe el área sin distorsión */
+    border-radius: 10px; /* Bordes redondeados */
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  }
+  
+  /* Estilo para los botones dentro de cada item */
+  ion-buttons ion-button {
+    margin-left: 5px;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  /* Efecto hover para los botones */
+  ion-buttons ion-button:hover {
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  /* Estilos para los botones específicos */
+  ion-buttons ion-button[color="danger"] {
+    background-color: #e74c3c; /* Rojo para Eliminar */
+    color: white;
+  }
+  
+  ion-buttons ion-button[color="danger"]:hover {
+    background-color: #c0392b; /* Rojo oscuro al pasar el cursor */
+  }
+  
+  ion-buttons ion-button[color="primary"] {
+    background-color: #3498db; /* Azul para Editar */
+    color: white;
+  }
+  
+  ion-buttons ion-button[color="primary"]:hover {
+    background-color: #2980b9; /* Azul oscuro al pasar el cursor */
+  }
+  
+  ion-buttons ion-button:not([color]) {
+    background-color: #16a085; /* Verde para Ver Detalles */
+    color: white;
+  }
+  
+  ion-buttons ion-button:not([color]):hover {
+    background-color: #1abc9c; /* Verde más brillante al pasar el cursor */
+  }
+  
+  /* Mensaje de "No hay bitácoras registradas" */
+  ion-item p {
+    text-align: center;
+    font-size: 16px;
+    color: #f0f0f0;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  /* Estilo del encabezado de la página */
+  ion-toolbar {
+    background-color: #2c3e50; /* Barra de herramientas oscura */
+  }
+  
+  ion-title {
+    color: #ffffff; /* Título en blanco */
+    font-size: 20px;
+    font-weight: bold;
+  }
+  

@@ -1,103 +1,110 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import * as L from 'leaflet'; 
-import { SessionManager } from 'src/managers/SessionManager';
-
-
+import { MapService } from '../use-cases/map-cases/mapService';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
+import { UserLogoutUseCase } from '../use-cases/user-logout.user-case';
+import { StorageService } from 'src/managers/StorageService';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
 
+  user: any;
   email: string = '';
-  map: L.Map | undefined;
-  userLocation: L.Marker | undefined; 
-  constructor(private route: ActivatedRoute,
+  map: any;
+  userLocation: any;
+  apiKey = '46f9fc3f1dcadc3d855d0ea270311b2a';
+  apiUrl = 'https://maps.open-street.com/api/route/'; // URL de la API de rutas
+  isFabVisible: boolean = false; // Para controlar la visibilidad del botón flotante
+
+  constructor(
     private router: Router,
-    private sessionmanager: SessionManager
+    private cancelAlertService: CancelAlertService,
+    private logoutUseCase: UserLogoutUseCase,
+    private mapService: MapService,  // Inyectamos el MapService
+    private storage: StorageService
   ) {}
 
-
-
-
   ngOnInit() {
-    this.route.queryParams.subscribe( params => {
-      this.email = params['email'] || '';
-    }),
-    this.loadMap();
+    this.loadMapa();
+    this.loadData();
   }
-  
-  goToBigMap(){
+
+  ngOnDestroy() {
+    // Llamamos a destroyMap() cuando el componente se destruya
+    this.mapService.destroyMap();
+  }
+
+  async loadData() {
+    const userEmail = await this.storage.get('user');
+    this.user = await this.storage.get('user');
+    this.email = userEmail.email;
+  }
+
+  async ionViewDidEnter() {
+    this.user = await this.storage.get('user');
+    
+    if (this.user) {
+      console.log('Email del usuario:', this.user?.email); // Verificar que el email esté presente
+    } else {
+      console.log('No se encontraron datos del usuario.');
+    }
+  }
+
+  goToBigMap() {
     this.router.navigate(['/bigmap']);
   }
 
-  performLogout() {
-    this.sessionmanager.performLogout();
-    this.router.navigate(['/principal']); 
-}
-
-loadMap() {
-  const defaultIcon = L.icon({
-    iconUrl: 'assets/img/leaflet/marker-icon.png',
-    iconRetinaUrl: 'assets/img/leaflet/marker-icon-2x.png',
-    shadowUrl: 'assets/img/leaflet/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  });
-
-  // Verificar si el mapa ya está inicializado para evitar volver a cargarlo
-  if (this.map) {
-    return;  // Si ya existe un mapa, no hacemos nada
+  goTobitacora() {
+    this.router.navigate(['/bitacora']);
   }
 
-  // Verifica si el navegador tiene soporte para geolocalización
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+  goToMemories() {
+    this.router.navigate(['/memories']);
+  }
 
-        // Crea el mapa solo si no ha sido creado ya
-        this.map = L.map('map').setView([latitude, longitude], 17);
+  async loadMapa() {
+    try {
+      // Obtener la ubicación del usuario
+      const position = await this.mapService.getUserLocation();
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
 
-        // Cargar el mapa de OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.map);
-
-        // Coloca un marcador en la ubicación del usuario
-        this.userLocation = L.marker([latitude, longitude], { icon: defaultIcon })
-          .addTo(this.map)
-          .bindPopup('Tu ubicación actual')
-          .openPopup();
-      },
-      (error) => {
-        // Manejo de errores en la obtención de la ubicación
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            alert('Permiso de geolocalización denegado.');
-            break;
-          case error.POSITION_UNAVAILABLE:
-            alert('La ubicación no está disponible.');
-            break;
-          case error.TIMEOUT:
-            alert('La solicitud para obtener la ubicación ha caducado.');
-            break;
-          default:
-            alert('Error desconocido al obtener la ubicación.');
-            break;
-        }
+      // Asegúrate de destruir el mapa existente antes de crear uno nuevo
+      if (this.map) {
+        this.mapService.destroyMap();
       }
-    );
-  } else {
-    alert('Geolocalización no soportada por el navegador');
-  }
-}
 
+      // Usar el servicio de mapa para cargar el mapa
+      this.map = this.mapService.initializeMap('map', latitude, longitude);
+    } catch (error) {
+      console.error('Error al cargar la geolocalización:', error);
+      alert(error || 'Hubo un problema al cargar los datos.');
+    }
+  }
+
+  async onSignOutButtonPressed() {
+    this.cancelAlertService.showAlert(
+      'Cerrar sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
+      async () => {
+        this.logoutUseCase.performLogout();
+        this.router.navigate(['/splash']);
+      },
+      () => {}
+    );
+  }
+
+  scrollToTop() {
+    document.getElementById('main-content')?.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: any) {
+    const scrollTop = event.target.scrollTop;
+    this.isFabVisible = scrollTop > 100; // Aparecer cuando el scroll sea mayor a 100px
+  }
 }

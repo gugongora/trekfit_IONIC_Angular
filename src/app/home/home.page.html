@@ -1,69 +1,150 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-app>
+  <ion-menu side="end" contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Perfil</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+  
+      <!-- Información de Usuario -->
+      <ion-item *ngIf="user" class="user-item">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="Avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+        <ion-label>Bienvenido, {{ user?.email }}</ion-label>
+      </ion-item>
 
-    <ion-title>Home</ion-title>
-  </ion-toolbar>
-</ion-header>
+      <hr>
 
-<ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-avatar aria-hidden="true" slot="start">
-      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>
-    <ion-label>Bienvenido, {{ email }}</ion-label>
-  </ion-item>
-  <div id="map" class="map-container"></div>
+      <!-- Sección de estadísticas -->
+      <div class="stats-container">
+        <div class="stats-header">
+          <div class="stats-item">
+            <ion-icon name="footsteps-outline" color="success"></ion-icon>
+            <p>3.450</p>
+          </div>
+          <div class="stats-item">
+            <ion-icon name="time-outline" color="primary"></ion-icon>
+            <p>1 Hora</p>
+          </div>
+          <div class="stats-item">
+            <ion-icon name="flame-outline" color="danger"></ion-icon>
+            <p>114 kcal</p>
+          </div>
+        </div>
 
-  <ion-card>
-    <ion-card-content>
-      A donde vamos hoy?
-    </ion-card-content>
-  </ion-card>
+        <!-- Barra de progreso -->
+        <div class="progress-section">
+          <h2>3.450 / 6.000 pasos</h2>
+          <ion-progress-bar value="0.54" color="success"></ion-progress-bar>
+          <p class="progress-label">54 %</p>
+        </div>
 
-  <div class="button-container">
-      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
-        <ion-icon slot="icon-only" name="bicycle-outline"></ion-icon>
-      </ion-button>
-      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
-        <ion-icon slot="icon-only" name="body-outline"></ion-icon>
-      </ion-button>
-      <ion-button shape="round" class="button-round" color="success" (click)="goToBigMap()">
-        <ion-icon slot="icon-only" name="barbell-outline"></ion-icon>
-      </ion-button>
-      <ion-button shape="round"  class="button-round" color="success" (click)="goToBigMap()">
-        <ion-icon slot="icon-only" name="heart"></ion-icon>
-      </ion-button>
+        <!-- Botones de actividad -->
+        <div class="activity-buttons">
+          <ion-button color="medium" fill="solid">
+            <ion-icon name="walk-outline"></ion-icon>
+            Caminata
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Botones principales -->
+      <ion-item>
+        <ion-button expand="full" color="primary" (click)="goTobitacora()">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          Crear Bitácora
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button expand="full" color="secondary" (click)="goToMemories()">
+          <ion-icon slot="start" name="file-tray-full-outline"></ion-icon>
+          Memories
+        </ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="onSignOutButtonPressed()">
+          Cerrar Sesión
+        </ion-button>
+      </ion-item>
+    </ion-content>
+  </ion-menu>
+
+  <!-- Contenido principal -->
+  <div class="ion-page" id="main-content">
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-title>ChileTreck</ion-title>
+        <ion-buttons slot="end">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content [fullscreen]="true">
+      <div id="map" class="map-container"></div>
+
+      <ion-card class="location-card">
+        <ion-card-content>
+          ¿A donde vamos hoy?
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Botones redondeados -->
+      <div class="button-container">
+        <ion-button shape="round" class="button-round" color="warning" (click)="goTobitacora()">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" class="button-round" color="warning" (click)="goToMemories()">
+          <ion-icon slot="icon-only" name="file-tray-full-outline"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" class="button-round" color="warning" (click)="goToBigMap()">
+          <ion-icon slot="icon-only" name="barbell-outline"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" class="button-round" color="warning" (click)="goToBigMap()">
+          <ion-icon slot="icon-only" name="heart"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Botón flotante para scroll -->
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" [style.display]="isFabVisible ? 'block' : 'none'">
+        <ion-fab-button color="primary" (click)="scrollToTop()">
+          <ion-icon name="arrow-up-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <!-- Tarjetas de lugares destacados -->
+      <ion-card class="location-card">
+        <img alt="Silhouette of mountains" src="https://chileestuyo.cl/wp-content/uploads/2019/11/parquelacampanaolue.jpg" />
+        <ion-card-header>
+          <ion-card-title>Cerro La Campana</ion-card-title>
+          <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Este parque es famoso por albergar el Cerro La Campana, un macizo emblemático de 1.920 metros de altura.
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="location-card">
+        <img alt="Silhouette of mountains" src="https://media.biobiochile.cl/wp-content/uploads/2022/07/salto-del-agua-cadete-cae.jpg" />
+        <ion-card-header>
+          <ion-card-title>Salto del Agua</ion-card-title>
+          <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          Se encuentra dentro del Parque Nacional Radal Siete Tazas, un área protegida conocida por sus paisajes andinos, formaciones geológicas y abundante vegetación.
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Botón flotante para scroll (repetido) -->
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" [style.display]="isFabVisible ? 'block' : 'none'">
+        <ion-fab-button color="primary" (click)="scrollToTop()">
+          <ion-icon name="arrow-up-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
   </div>
-
-  <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-    <ion-card-header>
-      <ion-card-title>Cerro La Campana</ion-card-title>
-      <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-    <ion-card-header>
-      <ion-card-title>Salto del Agua</ion-card-title>
-      <ion-card-subtitle>Lugares destacados</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-  </ion-card>
-
-<ion-button expand="full" color="danger" style="margin: 40px;" (click)="performLogout()">Cerrar Sesión
-</ion-button>
-
-
- </ion-content>
-
-
-
+</ion-app>
