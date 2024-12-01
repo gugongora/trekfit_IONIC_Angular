@@ -1,127 +1,157 @@
-ion-content {
-  --background: none; 
-  background-image: url('/assets/img/main.jpg'); /* Imagen de fondo */
-  background-size: cover;
-}
+  ion-content {
 
-ion-button {
-  align-items: center;
-}
+    --background: #000000; /* Fondo negro para el menú */
+    background-size: cover;
+  }
 
-.centered-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+  ion-button {
+    align-items: center;
+  }
 
-.map-container {
-  height: 40%; /* El mapa ocupa el 100% del contenedor */
-  width: 100%;
-}
+  .centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 
-.button-container {
-  height: 17%;
-  width: 100vw; /* Asegura que tome el 100% del ancho de la ventana del navegador */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0; /* Asegúrate de que no haya márgenes */
-  padding: 0; /* Elimina cualquier padding que pueda interferir */
-  box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el ancho total */
-}
+  .map-container {
+    height: 40%; /* El mapa ocupa el 100% del contenedor */
+    width: 100%;
+  }
 
-.button-round {
-  height: 80px;
-  width: 80px;
-}
+  .button-container {
+    height: 17%;
+    width: 100vw; /* Asegura que tome el 100% del ancho de la ventana del navegador */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0; /* Asegúrate de que no haya márgenes */
+    padding: 0; /* Elimina cualquier padding que pueda interferir */
+    box-sizing: border-box; /* Asegura que el padding y borde se incluyan en el ancho total */
+  }
 
-ion-icon {
-  height: 40px;
-  width: 40px;
-}
+  .button-round {
+    height: 80px;
+    width: 80px;
+  }
 
-.stats-container {
-  background-color: #1e1e1e;
-  border-radius: 10px;
-  padding: 15px;
-  color: white;
-  margin-bottom: 20px; /* Añade espacio entre el contenedor de estadísticas y los botones */
-}
+  ion-icon {
+    height: 40px;
+    width: 40px;
+  }
 
-.stats-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+  .stats-container {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    margin-bottom: 20px; /* Añade espacio entre el contenedor de estadísticas y los botones */
+  }
 
-.stats-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 14px;
-}
+  .stats-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
 
-.stats-item ion-icon {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
+  .stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+  }
 
-.progress-section {
-  text-align: center;
-  margin-bottom: 20px;
-}
+  .stats-item ion-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
 
-.progress-section h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
+  .progress-section {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 
-.progress-label {
-  margin-top: 5px;
-  font-size: 14px;
-  color: #7fff00;
-}
+  .progress-section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
 
-.activity-buttons {
-  display: flex;
-  justify-content: space-around;
-}
+  .progress-label {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #7fff00;
+  }
 
-.activity-buttons ion-button {
-  text-align: center;
-  font-size: 12px;
-}
+  .activity-buttons {
+    display: flex;
+    justify-content: space-around;
+  }
 
-.activity-buttons ion-icon {
-  margin-right: 5px;
-}
+  .activity-buttons ion-button {
+    text-align: center;
+    font-size: 12px;
+  }
 
-/* Cambios adicionales */
+  .activity-buttons ion-icon {
+    margin-right: 5px;
+  }
 
-/* Reducir el tamaño de la fuente en el saludo */
-ion-item ion-label {
-  font-size: 12px; /* Ajusta el tamaño según sea necesario */
-  line-height: 1.4; /* Mejora la legibilidad */
-}
-
-/* Separar el bloque de botones "Crear Bitácora" y "Memories" */
-ion-item {
-  margin-top: 15px; /* Añade margen superior para separar los bloques */
-  align-items: center;
-}
-
-ion-item:first-of-type {
-  margin-top: 0; /* El primer elemento no necesita margen */
-}
-
+  /* Estilos para el ion-menu */
 ion-menu {
-  --background: #000000; /* Fondo negro */
-  color: white; /* Color blanco para el texto dentro del menú */
+  --background: #000000; /* Fondo negro para el menú */
+  color: white; /* Establece el color del texto dentro del menú en blanco */
+  --width: 250px; /* Ancho del menú (puedes ajustarlo según tus necesidades) */
 }
 
-/* Asegúrate de que los ion-items y otros elementos del menú sean visibles */
+/* Estilos para los ion-items dentro del menú */
 ion-menu ion-item {
-  --color: white; /* Color de texto blanco */
+  --color: white; /* Color del texto en los ion-items */
+  --background: none; /* Elimina el fondo predeterminado de los items */
+  margin-bottom: 10px; /* Separa los items del menú */
+  padding-left: 0; /* Elimina el padding izquierdo para que ocupe todo el ancho */
+  padding-right: 0; /* Elimina el padding derecho */
 }
 
+/* Asegúrate de que los items ocupen el ancho completo */
+ion-menu ion-item {
+  display: flex;
+  justify-content: space-between; /* Esto asegura que los elementos dentro del ion-item se separen */
+  align-items: center;
+  width: 100%; /* Los ion-items ocuparán todo el ancho disponible */
+}
+
+/* Estilo para el ion-avatar dentro de los ion-items */
+ion-menu ion-avatar {
+  margin-right: 10px; /* Espacio entre el avatar y el texto */
+}
+
+/* Puedes personalizar el ion-label dentro de los ion-items */
+ion-menu ion-item ion-label {
+  font-size: 16px; /* Tamaño de fuente más grande */
+  color: white; /* Texto blanco */
+  line-height: 1.5; /* Mejor espaciado entre líneas */
+}
+
+/* Estilo para cuando se hace hover sobre un item del menú */
+ion-menu ion-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido al pasar el ratón */
+}
+
+/* Para los iconos dentro de los items */
+ion-menu ion-item ion-icon {
+  color: white; /* Color blanco para los iconos */
+}
+
+/* Agregar separación entre los items del menú */
+ion-menu ion-item:last-child {
+  margin-bottom: 0; /* El último item no necesita margen inferior */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 767px) {
+  .map-container {
+    height: 300px;
+  }
+
+}
